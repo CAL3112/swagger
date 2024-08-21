@@ -1,0 +1,303 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "description": "API Entreprise",
+        "version": "1.0.0",
+        "title": "API Entreprise"
+    },
+    "servers": [
+        {
+            "url": "https://lucas-michel.com/projets/FourData"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Entreprise",
+            "description": ""
+        }
+    ],
+    "paths": {
+        "/entreprise": {
+            "get": {
+                "tags": [
+                    "Entreprise"
+                ],
+                "summary": "Obtenir les entreprises enregistrées",
+                "operationId": "getEntreprise",
+                "responses": {
+                    "200": {
+                        "description": "Liste les informations des entreprises enregistrées",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Entreprises"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Renvoie une erreur, aucun élément trouvé"
+                    }
+                }
+            }
+        },
+        "/entreprise/save": {
+            "post": {
+                "tags": [
+                    "Entreprise"
+                ],
+                "summary": "Enregistrer l'entreprise",
+                "operationId": "getEntreprise",
+                "requestBody": {
+                    "description": "Contenu des infos d'une entreprise",
+                    "required": true,
+                    "content": {
+                        "application/json":  {
+                            "schema": {
+                                "$ref": "#/components/schemas/Entreprise"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/entreprise/update/{id}": {
+            "put": {
+                "tags": [
+                    "Entreprise"
+                ],
+                "summary": "Mettre à jour les infos de l'entreprise",
+                "operationId": "updateEntreprise",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "/entreprise/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Entreprise"
+                ],
+                "summary": "Supprimer l'entreprise",
+                "operationId": "deleteEntreprise",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "/entreprise/search/{siret}": {
+            "get": {
+                "tags": [
+                    "Entreprise"
+                ],
+                "summary": "Liste les informations de l'entreprise rechechée",
+                "operationId": "getCompanyInfo",
+                "parameters": [
+                    {
+                        "name": "siret",
+                        "in": "path",
+                        "description": "N° SIRET de l'entreprise",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste les informations de l'entreprise rechechée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntrepriseSearch"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Renvoie une erreur, aucun élément trouvé"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Entreprise": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Entreprise"
+                },
+                "example": 
+                    {
+                        "siret": "82178322200044",
+                        "raisonSociale": "FOUR DATA",
+                        "ville": "DIJON",
+                        "codePostal": "21000",
+                        "adresse": "11 RUE PAUL THENARD",
+                        "siren": "821783222"
+                    }
+            },
+            "Entreprises": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Entreprises"
+                },
+                "example": [
+                    {
+                        "id": 1,
+                        "siret": "82178322200044",
+                        "raisonSociale": "FOUR DATA",
+                        "ville": "DIJON",
+                        "cp": "21000",
+                        "adresse": "11 RUE PAUL THENARD",
+                        "siren": "821783222",
+                        "createdAt": "2024-08-19T10:08:54+00:00",
+                        "updatedAt": null,
+                        "deletedAt": null
+                    },
+                    {
+                        "id": 2,
+                        "siret": "92468615700026",
+                        "raisonSociale": "LUCAS MICHEL",
+                        "ville": "MILLIERES",
+                        "cp": "52240",
+                        "adresse": "1 RUE DES TILLEULS",
+                        "siren": "924686157",
+                        "createdAt": "2024-08-19T10:09:31+00:00",
+                        "updatedAt": "2024-08-20T16:51:45+00:00",
+                        "deletedAt": null
+                    }
+                ]
+            },
+            "EntrepriseSearch": {
+                "type": "objet",
+                "items": {
+                    "$ref": "#/components/schemas/EntrepriseSearch"
+                },
+                "example": {
+                    "header": {
+                      "statut": 200,
+                      "message": "ok"
+                    },
+                    "etablissement": {
+                      "siren": "924686157",
+                      "nic": "00026",
+                      "siret": "92468615700026",
+                      "statutDiffusionEtablissement": "O",
+                      "dateCreationEtablissement": "2024-05-31",
+                      "trancheEffectifsEtablissement": null,
+                      "anneeEffectifsEtablissement": null,
+                      "activitePrincipaleRegistreMetiersEtablissement": null,
+                      "dateDernierTraitementEtablissement": "2024-06-12T05:24:09.603",
+                      "etablissementSiege": true,
+                      "nombrePeriodesEtablissement": 1,
+                      "uniteLegale": {
+                        "etatAdministratifUniteLegale": "A",
+                        "statutDiffusionUniteLegale": "O",
+                        "dateCreationUniteLegale": "2024-02-26",
+                        "categorieJuridiqueUniteLegale": "1000",
+                        "denominationUniteLegale": null,
+                        "sigleUniteLegale": null,
+                        "denominationUsuelle1UniteLegale": null,
+                        "denominationUsuelle2UniteLegale": null,
+                        "denominationUsuelle3UniteLegale": null,
+                        "sexeUniteLegale": "M",
+                        "nomUniteLegale": "MICHEL",
+                        "nomUsageUniteLegale": null,
+                        "prenom1UniteLegale": "LUCAS",
+                        "prenom2UniteLegale": null,
+                        "prenom3UniteLegale": null,
+                        "prenom4UniteLegale": null,
+                        "prenomUsuelUniteLegale": "LUCAS",
+                        "pseudonymeUniteLegale": null,
+                        "activitePrincipaleUniteLegale": "62.01Z",
+                        "nomenclatureActivitePrincipaleUniteLegale": "NAFRev2",
+                        "identifiantAssociationUniteLegale": null,
+                        "economieSocialeSolidaireUniteLegale": null,
+                        "societeMissionUniteLegale": null,
+                        "caractereEmployeurUniteLegale": null,
+                        "trancheEffectifsUniteLegale": null,
+                        "anneeEffectifsUniteLegale": null,
+                        "nicSiegeUniteLegale": "00026",
+                        "dateDernierTraitementUniteLegale": "2024-06-12T05:24:09.610",
+                        "categorieEntreprise": null,
+                        "anneeCategorieEntreprise": null
+                      },
+                      "adresseEtablissement": {
+                        "complementAdresseEtablissement": null,
+                        "numeroVoieEtablissement": "1",
+                        "indiceRepetitionEtablissement": null,
+                        "dernierNumeroVoieEtablissement": null,
+                        "indiceRepetitionDernierNumeroVoieEtablissement": null,
+                        "typeVoieEtablissement": "RUE",
+                        "libelleVoieEtablissement": "DES TILLEULS",
+                        "codePostalEtablissement": "52240",
+                        "libelleCommuneEtablissement": "MILLIERES",
+                        "libelleCommuneEtrangerEtablissement": null,
+                        "distributionSpecialeEtablissement": null,
+                        "codeCommuneEtablissement": "52325",
+                        "codeCedexEtablissement": null,
+                        "libelleCedexEtablissement": null,
+                        "codePaysEtrangerEtablissement": null,
+                        "libellePaysEtrangerEtablissement": null,
+                        "identifiantAdresseEtablissement": "523250030_B",
+                        "coordonneeLambertAbscisseEtablissement": "880118.61",
+                        "coordonneeLambertOrdonneeEtablissement": "6784588.95"
+                      },
+                      "adresse2Etablissement": {
+                        "complementAdresse2Etablissement": null,
+                        "numeroVoie2Etablissement": null,
+                        "indiceRepetition2Etablissement": null,
+                        "typeVoie2Etablissement": null,
+                        "libelleVoie2Etablissement": null,
+                        "codePostal2Etablissement": null,
+                        "libelleCommune2Etablissement": null,
+                        "libelleCommuneEtranger2Etablissement": null,
+                        "distributionSpeciale2Etablissement": null,
+                        "codeCommune2Etablissement": null,
+                        "codeCedex2Etablissement": null,
+                        "libelleCedex2Etablissement": null,
+                        "codePaysEtranger2Etablissement": null,
+                        "libellePaysEtranger2Etablissement": null
+                      },
+                      "periodesEtablissement": [
+                        {
+                          "dateFin": null,
+                          "dateDebut": "2024-05-31",
+                          "etatAdministratifEtablissement": "A",
+                          "changementEtatAdministratifEtablissement": false,
+                          "enseigne1Etablissement": null,
+                          "enseigne2Etablissement": null,
+                          "enseigne3Etablissement": null,
+                          "changementEnseigneEtablissement": false,
+                          "denominationUsuelleEtablissement": null,
+                          "changementDenominationUsuelleEtablissement": false,
+                          "activitePrincipaleEtablissement": "62.01Z",
+                          "nomenclatureActivitePrincipaleEtablissement": "NAFRev2",
+                          "changementActivitePrincipaleEtablissement": false,
+                          "caractereEmployeurEtablissement": "N",
+                          "changementCaractereEmployeurEtablissement": false
+                        }
+                      ]
+                    }
+                  }
+            }
+            
+        }
+    }
+}
